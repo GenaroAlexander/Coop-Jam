@@ -6,6 +6,8 @@ public class PlayerMove : MonoBehaviour {
 
     public float speed;
 
+    public Vector3 velocity;
+
     private Rigidbody rb;
 	// Use this for initialization
 	void Start ()
@@ -16,8 +18,16 @@ public class PlayerMove : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        velocity = rb.velocity;
         float moveHoriz = Input.GetAxis("Horizontal");
 
-        rb.AddForce(new Vector3(moveHoriz, 0, 0) * speed);
-	}
+
+        float jump = 0;
+
+        if (Input.GetKeyDown(KeyCode.Space) && velocity.y == 0)
+        {
+            jump = 20;
+        }
+        rb.AddForce(new Vector3(moveHoriz, jump, 0) * speed);
+    }
 }
