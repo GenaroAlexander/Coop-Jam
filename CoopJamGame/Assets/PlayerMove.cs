@@ -6,6 +6,12 @@ public class PlayerMove : MonoBehaviour {
 
     public float speed;
 
+    public int MinionID;
+
+   // public int currMin;
+
+    public GameData gamestats;
+
     public Vector3 velocity;
 
     private Rigidbody rb;
@@ -18,16 +24,22 @@ public class PlayerMove : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        velocity = rb.velocity;
-        float moveHoriz = Input.GetAxis("Horizontal");
-
-
-        float jump = 0;
-
-        if (Input.GetKeyDown(KeyCode.Space) && velocity.y == 0)
+      //  currMin = gamestats.currentMinion;
+        // MOVE CODE
+        if(gamestats.currentMinion == MinionID)
         {
-            jump = 20;
+            velocity = rb.velocity;
+            float moveHoriz = Input.GetAxis("Horizontal");
+            float moveVert = Input.GetAxis("Vertical");
+
+            float jump = 0;
+
+            if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(velocity.y) < 2)
+            {
+                jump = 50;
+            }
+            rb.AddForce(new Vector3(moveHoriz, jump, moveVert * 0.5f) * speed);
         }
-        rb.AddForce(new Vector3(moveHoriz, jump, 0) * speed);
+      
     }
 }
