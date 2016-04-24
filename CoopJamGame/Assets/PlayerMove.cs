@@ -45,7 +45,7 @@ public class PlayerMove : MonoBehaviour {
 
             if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(velocity.y) < 1)
             {
-                jump = 35;
+                jump = 50;
             }
 
             if(gamestats.sideView)
