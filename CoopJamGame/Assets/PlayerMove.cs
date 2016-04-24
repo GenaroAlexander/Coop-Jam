@@ -10,6 +10,8 @@ public class PlayerMove : MonoBehaviour {
 
     public float MaxDist;
 
+    public float health;
+
    // public int currMin;
     public GameObject partner;
 
@@ -25,6 +27,7 @@ public class PlayerMove : MonoBehaviour {
     {
         rb = GetComponent<Rigidbody>();
         dontMove = false;
+        health = 100;
 	}
 	
 	// Update is called once per frame
@@ -34,17 +37,35 @@ public class PlayerMove : MonoBehaviour {
         // MOVE CODE
         if(gamestats.currentMinion == MinionID)
         {
-            velocity = rb.velocity;
+           
             float moveHoriz = Input.GetAxis("Horizontal");
             float moveVert = Input.GetAxis("Vertical");
 
             float jump = 0;
 
-            if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(velocity.y) < 2)
+            if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(velocity.y) < 1)
             {
-                jump = 50;
+                jump = 35;
             }
-            rb.AddForce(new Vector3(moveHoriz, jump, moveVert * 0.5f) * speed);
+
+            if(gamestats.sideView)
+            {
+                rb.AddForce(new Vector3(moveHoriz, jump, moveVert) * speed);
+            }
+            else
+            {
+                rb.AddForce(new Vector3(moveVert, jump, moveHoriz * -1) * speed);
+            }
+
+            
+            
+            if(moveHoriz == 0 && moveVert == 0)
+            {
+                velocity = rb.velocity;
+                velocity.x *= 0.9f;
+                velocity.z *= 0.9f;
+                rb.velocity = velocity;
+            }
 
             if (Input.GetKeyDown(KeyCode.C))
                 dontMove = !dontMove;
